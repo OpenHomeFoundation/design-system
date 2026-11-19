@@ -1,6 +1,6 @@
 {
   "name": "@openhomefoundation/tokens",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Open Home Foundation design tokens: colours, spacing, radii, typography and more.",
   "license": "Apache-2.0",
   "repository": {
