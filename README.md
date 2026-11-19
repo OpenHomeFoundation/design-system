@@ -25,7 +25,7 @@ pnpm test
 
 ## Releases
 
-Commits follow [Conventional Commits](https://www.conventionalcommits.org). On every push to `main`, [Release Please](https://github.com/googleapis/release-please) opens or updates a release PR for each package with `feat` or `fix` commits. Merging that PR tags the version and publishes the package to npm from GitHub Actions.
+Commits follow [Conventional Commits](https://www.conventionalcommits.org). On every push to `main`, [Release Please](https://github.com/googleapis/release-please) opens or updates a release PR for each package with `feat` or `fix` commits. Merging that PR tags the version and publishes the package to npm from GitHub Actions. Each package starts at 0.1.0. There are no `CHANGELOG.md` files: the notes for each version are on its GitHub release.
 
 Publishing uses [npm trusted publishing](https://docs.npmjs.com/trusted-publishers), so there is no npm token in this repo. Two things have to be set up by hand once:
 
