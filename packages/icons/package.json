@@ -3,6 +3,11 @@
   "version": "0.0.0",
   "description": "Open Home Foundation icons: all of Lucide plus OHF's own, for any framework.",
   "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/OpenHomeFoundation/design-system.git",
+    "directory": "packages/icons"
+  },
   "type": "module",
   "sideEffects": [
     "./dist/lit/define.js"
@@ -15,7 +20,7 @@
       "types": "./dist/index.d.ts",
       "default": "./dist/index.js"
     },
-    "./icons/*": {
+    "./icons/*.js": {
       "types": "./dist/icons/*.d.ts",
       "default": "./dist/icons/*.js"
     },

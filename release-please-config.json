@@ -6,6 +6,9 @@
   "packages": {
     "packages/tokens": {
       "component": "tokens"
+    },
+    "packages/icons": {
+      "component": "icons"
     }
   }
 }

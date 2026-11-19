@@ -57,15 +57,17 @@ export class OhfIcon extends LitElement {
 	declare strokeWidth?: string | number;
 
 	protected override render(): TemplateResult {
-		const size =
-			this.size === undefined || this.size === ""
-				? undefined
-				: /^[\d.]+$/.test(String(this.size))
-					? `${this.size}px`
-					: String(this.size);
+		// 0 is a real value, so test for "not set" rather than falsy.
+		const isSet = (value: string | number | null | undefined): boolean =>
+			value !== undefined && value !== null && value !== "";
+		const size = !isSet(this.size)
+			? undefined
+			: /^[\d.]+$/.test(String(this.size))
+				? `${this.size}px`
+				: String(this.size);
 		const style = [
 			size ? `width:${size};height:${size}` : "",
-			this.strokeWidth ? `stroke-width:${this.strokeWidth}` : "",
+			isSet(this.strokeWidth) ? `stroke-width:${this.strokeWidth}` : "",
 		]
 			.filter(Boolean)
 			.join(";");

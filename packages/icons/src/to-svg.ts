@@ -27,6 +27,9 @@ const SHAPES = new Set([
 
 const ATTRIBUTE_NAME = /^[a-z][a-z0-9-]*$/i;
 
+/** Event handlers (`onclick`, `onload`, …) run script, so they are never written. */
+const EVENT_HANDLER = /^on/i;
+
 const escape = (value: string): string =>
 	value
 		.replaceAll("&", "&amp;")
@@ -38,7 +41,9 @@ const attributes = (values: Record<string, string | undefined>): string =>
 	Object.entries(values)
 		.filter(
 			(entry): entry is [string, string] =>
-				entry[1] !== undefined && ATTRIBUTE_NAME.test(entry[0]),
+				entry[1] !== undefined &&
+				ATTRIBUTE_NAME.test(entry[0]) &&
+				!EVENT_HANDLER.test(entry[0]),
 		)
 		.map(([name, value]) => ` ${name}="${escape(String(value))}"`)
 		.join("");

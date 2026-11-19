@@ -50,7 +50,11 @@ type Metadata = { tags?: string[]; aliases?: string[] };
 
 // --------------------------------------------------------------- naming
 
-const KEBAB = /^[a-z0-9]+(-[a-z0-9]+)*$/;
+/**
+ * Names start with a letter because they become JavaScript identifiers: a
+ * Vue component cannot be called `3dProbe`.
+ */
+const KEBAB = /^[a-z][a-z0-9]*(-[a-z0-9]+)*$/;
 
 /** `arrow-left` becomes `iconArrowLeft`, `grid-2x2` becomes `iconGrid2x2`. */
 export const exportName = (name: string): string =>
@@ -64,6 +68,9 @@ export const componentName = (name: string): string =>
 	exportName(name).slice("icon".length);
 
 // -------------------------------------------------------------- parsing
+
+/** Elements editors add that draw nothing. The build drops them. */
+const EDITOR_ELEMENTS = new Set(["title", "desc", "metadata"]);
 
 type SvgElement = {
 	type: string;
@@ -101,7 +108,9 @@ export const parseSvg = (svg: string, optimise = false): ParsedSvg => {
 					parsed = {
 						attributes: { ...element.attributes },
 						node: shapes.map((shape) => [shape.name, { ...shape.attributes }]),
-						nested: shapes.flatMap((shape) =>
+						nested: shapes
+							.filter((shape) => !EDITOR_ELEMENTS.has(shape.name))
+							.flatMap((shape) =>
 							shape.children
 								.filter((child) => child.type === "element")
 								.map((child) => `${shape.name} > ${child.name}`),
@@ -161,7 +170,9 @@ const REQUIRED = {
 export const validateCustom = (name: string, svg: string): string[] => {
 	const problems: string[] = [];
 	if (!KEBAB.test(name)) {
-		problems.push(`name "${name}" must be kebab-case (a-z, 0-9 and hyphens)`);
+		problems.push(
+			`name "${name}" must be kebab-case (a-z, 0-9 and hyphens) and start with a letter`,
+		);
 	}
 	let parsed: ParsedSvg;
 	try {
@@ -176,13 +187,17 @@ export const validateCustom = (name: string, svg: string): string[] => {
 			);
 		}
 	}
+	if (parsed.attributes.style !== undefined) {
+		// Only the shapes are kept, so styling on <svg> would be silently lost.
+		problems.push("<svg> has an inline style");
+	}
 	if (!parsed.node.some(([tag]) => SHAPES.has(tag))) problems.push("has no shapes");
 	for (const nested of parsed.nested) {
 		problems.push(`shapes must sit directly inside <svg> (found ${nested})`);
 	}
 	for (const [tag, attributes] of parsed.node) {
 		// Editors add these; the optimiser removes them.
-		if (tag === "title" || tag === "desc" || tag === "metadata") continue;
+		if (EDITOR_ELEMENTS.has(tag)) continue;
 		if (!SHAPES.has(tag)) {
 			problems.push(`<${tag}> is not allowed; use ${[...SHAPES].join(", ")}`);
 		}
@@ -269,6 +284,13 @@ export const collectCustom = (dir = join(root, "src/custom")): Icon[] => {
 		const metadata = existsSync(metadataPath)
 			? (JSON.parse(readFileSync(metadataPath, "utf8")) as Metadata)
 			: {};
+		for (const alias of metadata.aliases ?? []) {
+			if (!KEBAB.test(alias)) {
+				errors.push(
+					`${name}.json: alias "${alias}" must be kebab-case (a-z, 0-9 and hyphens) and start with a letter`,
+				);
+			}
+		}
 		let node: IconNode = [];
 		try {
 			node = parseSvg(svg, true).node.filter(([tag]) => SHAPES.has(tag));
@@ -305,6 +327,11 @@ export const collect = (customDir?: string): Icon[] => {
 	for (const icon of icons) {
 		const owner = `${icon.source} icon ${icon.name}`;
 		for (const name of [icon.name, ...icon.aliases]) {
+			if (!KEBAB.test(name)) {
+				throw new Error(
+					`${owner}: "${name}" cannot be turned into a JavaScript export name`,
+				);
+			}
 			claim(names, name, owner);
 			claim(exports, exportName(name), owner);
 		}
@@ -419,7 +446,8 @@ export const generate = (
 	copyFileSync(join(lucideRoot, "LICENSE"), join(dist, "LICENSE-lucide"));
 };
 
-if (import.meta.main) {
+// Run only when this file is the script Node was started with.
+if (process.argv[1] === fileURLToPath(import.meta.url)) {
 	rmSync(join(root, "dist"), { recursive: true, force: true });
 	const icons = collect();
 	generate(icons);

@@ -116,6 +116,36 @@ describe("OHF icons", () => {
 		expect(problems).toContain("<text> is not allowed");
 	});
 
+	it("rejects names that cannot become a JavaScript export", () => {
+		const svg = readFileSync(join(fixtures, "valid/test-probe.svg"), "utf8");
+		expect(validateCustom("3d-probe", svg).join("\n")).toContain(
+			"start with a letter",
+		);
+		const dir = mkdtempSync(join(tmpdir(), "ohf-alias-"));
+		writeFileSync(join(dir, "probe-x.svg"), svg);
+		writeFileSync(join(dir, "probe-x.json"), '{ "aliases": ["3d-probe"] }');
+		expect(() => collectCustom(dir)).toThrow(/alias "3d-probe" must be kebab-case/);
+	});
+
+	it("accepts editor metadata with nested elements and drops it", () => {
+		const svg = readFileSync(join(fixtures, "valid/test-probe.svg"), "utf8").replace(
+			"<title>probe</title>",
+			'<metadata><rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"><rdf:Description/></rdf:RDF></metadata>',
+		);
+		expect(validateCustom("test-probe", svg)).toEqual([]);
+		const dir = mkdtempSync(join(tmpdir(), "ohf-meta-"));
+		writeFileSync(join(dir, "test-probe.svg"), svg);
+		expect(collectCustom(dir)[0]?.node.map(([tag]) => tag)).toEqual(["circle", "path"]);
+	});
+
+	it("rejects an inline style on the <svg> element", () => {
+		const svg = readFileSync(join(fixtures, "valid/test-probe.svg"), "utf8").replace(
+			"<svg ",
+			'<svg style="stroke:red" ',
+		);
+		expect(validateCustom("test-probe", svg)).toEqual(["<svg> has an inline style"]);
+	});
+
 	it("rejects a name Lucide already uses", () => {
 		const dir = mkdtempSync(join(tmpdir(), "ohf-clash-"));
 		for (const name of ["house", "home"]) {
@@ -149,6 +179,10 @@ describe("iconToSvg", () => {
 			{ label: 'a"b<c' },
 		);
 		expect(svg).not.toContain("<script");
+		for (const handler of ["onmouseover", "ONLOAD", "onClick"]) {
+			const out = iconToSvg([["path", { d: "M0 0", [handler]: "alert(1)" }]]);
+			expect(out).toBe(iconToSvg([["path", { d: "M0 0" }]]));
+		}
 		expect(svg).not.toContain("on click");
 		expect(svg).toContain('aria-label="a&quot;b&lt;c"');
 	});
@@ -241,6 +275,13 @@ describe("tree shaking", () => {
 		expect(code).toContain("M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8");
 		// The whole set is about 600 kB; one icon is a few hundred bytes.
 		expect(code.length).toBeLessThan(600);
+	});
+
+	it("resolves the documented per-icon import", async () => {
+		const code = await bundle(
+			'import { iconHouse } from "@openhomefoundation/icons/icons/house.js";\nconsole.log(iconHouse);\n',
+		);
+		expect(code).toContain("M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8");
 	});
 
 	it("importing the Lit helper does not register an element or pull in icons", async () => {
