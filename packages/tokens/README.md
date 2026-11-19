@@ -30,6 +30,7 @@ The source is JSON in the [W3C design tokens format](https://www.designtokens.or
 - `data-theme` takes `light`, `dark` or `auto` (follows the system). With no attribute the page is light.
 - `data-brand` selects a brand. With no attribute the brand is OHF.
 - Set both on `<html>`. You can also set `data-theme` on any element to theme one region.
+- Import `tokens.css` first, then the theme, then the brand. Later files override earlier ones.
 
 In JavaScript:
 
