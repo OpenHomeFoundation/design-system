@@ -34,6 +34,7 @@
     "import:figma": "node scripts/import-figma.ts",
     "generate:ramps": "node scripts/generate-ramps.ts",
     "build": "node scripts/build.ts",
+    "prepack": "node scripts/build.ts",
     "test": "vitest run",
     "typecheck": "tsc -p ."
   },
