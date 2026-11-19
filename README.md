@@ -5,6 +5,7 @@ Shared design foundations for Open Home Foundation products. The plan and its re
 | Package | Contents |
 |---|---|
 | [`@openhomefoundation/tokens`](packages/tokens) | Colours, spacing, radii, typography, shadows and motion as CSS custom properties, JS and JSON |
+| [`@openhomefoundation/icons`](packages/icons) | Every Lucide icon plus OHF's own, as icon data, SVG files, a Lit element and Vue components |
 
 ## Develop
 
@@ -24,7 +25,7 @@ pnpm test
 
 ## Releases
 
-Commits follow [Conventional Commits](https://www.conventionalcommits.org). On every push to `main`, [Release Please](https://github.com/googleapis/release-please) opens or updates a release PR for each package with `feat` or `fix` commits. Merging that PR tags the version and publishes the package to npm from GitHub Actions.
+Commits follow [Conventional Commits](https://www.conventionalcommits.org). On every push to `main`, [Release Please](https://github.com/googleapis/release-please) opens or updates a release PR for each package with `feat` or `fix` commits. Merging that PR tags the version and publishes the package to npm from GitHub Actions. Each package starts at 0.1.0. There are no `CHANGELOG.md` files: the notes for each version are on its GitHub release.
 
 Publishing uses [npm trusted publishing](https://docs.npmjs.com/trusted-publishers), so there is no npm token in this repo. Two things have to be set up by hand once:
 
