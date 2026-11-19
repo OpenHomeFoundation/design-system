@@ -46,7 +46,8 @@
   "scripts": {
     "build": "node scripts/build.ts && tsc -p tsconfig.build.json",
     "test": "vitest run",
-    "typecheck": "tsc -p ."
+    "typecheck": "tsc -p .",
+    "prepack": "node scripts/build.ts && tsc -p tsconfig.build.json"
   },
   "peerDependencies": {
     "lit": "^3.0.0",
