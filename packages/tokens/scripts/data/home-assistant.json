@@ -1,0 +1,16 @@
+{
+  "$comment": "--ha-color-primary-* from home-assistant/frontend src/resources/theme/color/core.globals.ts. HA numbers its ramp 05 (darkest) to 95 (lightest).",
+  "primary": {
+    "05": "#001721",
+    "10": "#002e3e",
+    "20": "#004156",
+    "30": "#006787",
+    "40": "#009ac7",
+    "50": "#18bcf2",
+    "60": "#37c8fd",
+    "70": "#7bd4fb",
+    "80": "#b9e6fc",
+    "90": "#dff3fc",
+    "95": "#eff9fe"
+  }
+}

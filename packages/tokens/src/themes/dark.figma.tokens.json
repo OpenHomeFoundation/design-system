@@ -1,0 +1,503 @@
+{
+  "color": {
+    "bg": {
+      "overlay": {
+        "$type": "color",
+        "$value": "{color.black-alpha.64}",
+        "$description": "scrim behind modal and drawer"
+      },
+      "canvas": {
+        "$type": "color",
+        "$value": "{color.grey.975}",
+        "$description": "page background"
+      },
+      "disabled": {
+        "$type": "color",
+        "$value": "{color.grey.900}",
+        "$description": "disabled buttons and fields"
+      },
+      "inverse": {
+        "$type": "color",
+        "$value": "{color.grey.50}",
+        "$description": "New badge, tooltips, toasts"
+      },
+      "canvas-transparent": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.0549,
+            0.0549,
+            0.051
+          ],
+          "hex": "#0e0e0d",
+          "alpha": 0
+        },
+        "$description": "Support token for canvas-fade only. Transparent version of the active canvas color; use the gradient style rather than this helper directly."
+      },
+      "surface": {
+        "default": {
+          "$type": "color",
+          "$value": "{color.grey.950}",
+          "$description": "search field, device image tiles, panels"
+        },
+        "raised": {
+          "$type": "color",
+          "$value": "{color.grey.900}",
+          "$description": "dropdowns, menus, drawer, modals"
+        },
+        "sunken": {
+          "$type": "color",
+          "$value": "{color.black}",
+          "$description": "inset areas, read-only fields"
+        },
+        "hover": {
+          "$type": "color",
+          "$value": "{color.white-alpha.8}",
+          "$description": "hover on rows, list items, cards"
+        }
+      },
+      "neutral": {
+        "subtle": {
+          "default": {
+            "$type": "color",
+            "$value": "{color.grey.800}",
+            "$description": "segmented track, arrow button, checkbox fill"
+          },
+          "hover": {
+            "$type": "color",
+            "$value": "{color.grey.700}",
+            "$description": "hover on the above, dropdown item hover"
+          },
+          "selected": {
+            "$type": "color",
+            "$value": "{color.grey.600}",
+            "$description": "current page in pagination, selected chip"
+          }
+        }
+      },
+      "primary": {
+        "default": {
+          "$type": "color",
+          "$value": "{color.grey.100}",
+          "$description": "primary button (Sign up, Contribute)"
+        },
+        "hover": {
+          "$type": "color",
+          "$value": "{color.grey.50}",
+          "$description": "primary button hover"
+        },
+        "pressed": {
+          "$type": "color",
+          "$value": "{color.grey.200}",
+          "$description": "primary button pressed"
+        }
+      },
+      "accent": {
+        "default": {
+          "$type": "color",
+          "$value": "{brand.accent.600}",
+          "$description": "toggle on, small accents"
+        },
+        "hover": {
+          "$type": "color",
+          "$value": "{brand.accent.700}",
+          "$description": "accent hover"
+        },
+        "subtle": {
+          "$type": "color",
+          "$value": "{brand.accent.950}",
+          "$description": "light accent fill"
+        },
+        "pressed": {
+          "$type": "color",
+          "$value": "{brand.accent.800}",
+          "$description": "Accent pressed state; pair with color/text/on-accent. Default 600, hover 700, pressed 800 keep white labels readable."
+        }
+      },
+      "success": {
+        "subtle": {
+          "$type": "color",
+          "$value": "{color.green.950}",
+          "$description": "success subtle background"
+        }
+      },
+      "warning": {
+        "subtle": {
+          "$type": "color",
+          "$value": "{color.amber.950}",
+          "$description": "warning subtle background"
+        }
+      },
+      "danger": {
+        "subtle": {
+          "$type": "color",
+          "$value": "{color.red.950}",
+          "$description": "danger subtle background"
+        }
+      },
+      "privacy": {
+        "subtle": {
+          "$type": "color",
+          "$value": "{color.blue.950}",
+          "$description": "privacy subtle background"
+        }
+      },
+      "choice": {
+        "subtle": {
+          "$type": "color",
+          "$value": "{color.violet.950}",
+          "$description": "choice subtle background"
+        }
+      },
+      "sustainability": {
+        "subtle": {
+          "$type": "color",
+          "$value": "{color.teal.950}",
+          "$description": "sustainability subtle background"
+        }
+      },
+      "info": {
+        "subtle": {
+          "$type": "color",
+          "$value": "{color.grey.900}",
+          "$description": "neutral informational subtle background"
+        }
+      }
+    },
+    "text": {
+      "default": {
+        "$type": "color",
+        "$value": "{color.grey.50}",
+        "$description": "device names, headings, body"
+      },
+      "subtle": {
+        "$type": "color",
+        "$value": "{color.grey.400}",
+        "$description": "category, manufacturer, counts, helper text"
+      },
+      "placeholder": {
+        "$type": "color",
+        "$value": "{color.grey.400}",
+        "$description": "input placeholder only"
+      },
+      "disabled": {
+        "$type": "color",
+        "$value": "{color.grey.600}",
+        "$description": "disabled labels"
+      },
+      "inverse": {
+        "$type": "color",
+        "$value": "{color.grey.975}",
+        "$description": "text on bg/inverse"
+      },
+      "on-primary": {
+        "$type": "color",
+        "$value": "{color.grey.975}",
+        "$description": "text on bg/primary"
+      },
+      "on-accent": {
+        "$type": "color",
+        "$value": "{color.white}",
+        "$description": "icons and large text on bg/accent"
+      },
+      "success": {
+        "$type": "color",
+        "$value": "{color.green.300}",
+        "$description": "success text; shared foreground for text and icons on the matching subtle background."
+      },
+      "warning": {
+        "$type": "color",
+        "$value": "{color.amber.300}",
+        "$description": "warning text; shared foreground for text and icons on the matching subtle background."
+      },
+      "danger": {
+        "$type": "color",
+        "$value": "{color.red.300}",
+        "$description": "danger text; shared foreground for text and icons on the matching subtle background."
+      },
+      "privacy": {
+        "$type": "color",
+        "$value": "{color.blue.300}",
+        "$description": "privacy text; shared foreground for text and icons on the matching subtle background."
+      },
+      "choice": {
+        "$type": "color",
+        "$value": "{color.violet.300}",
+        "$description": "choice text; shared foreground for text and icons on the matching subtle background."
+      },
+      "sustainability": {
+        "$type": "color",
+        "$value": "{color.teal.300}",
+        "$description": "sustainability text; shared foreground for text and icons on the matching subtle background."
+      },
+      "info": {
+        "$type": "color",
+        "$value": "{color.grey.200}",
+        "$description": "neutral informational text; shared foreground for text and icons on the matching subtle background."
+      },
+      "link": {
+        "default": {
+          "$type": "color",
+          "$value": "{color.grey.400}",
+          "$description": "links like More, always underlined"
+        },
+        "hover": {
+          "$type": "color",
+          "$value": "{color.grey.50}",
+          "$description": "link hover"
+        }
+      }
+    },
+    "icon": {
+      "default": {
+        "$type": "color",
+        "$value": "{color.grey.50}",
+        "$description": "default icons"
+      },
+      "subtle": {
+        "$type": "color",
+        "$value": "{color.grey.400}",
+        "$description": "search icon, chevrons, secondary icons"
+      },
+      "disabled": {
+        "$type": "color",
+        "$value": "{color.grey.600}",
+        "$description": "disabled icons"
+      },
+      "inverse": {
+        "$type": "color",
+        "$value": "{color.grey.975}",
+        "$description": "icons on bg/inverse"
+      },
+      "on-primary": {
+        "$type": "color",
+        "$value": "{color.grey.975}",
+        "$description": "icons on bg/primary"
+      },
+      "on-accent": {
+        "$type": "color",
+        "$value": "{color.white}",
+        "$description": "icons on bg/accent"
+      }
+    },
+    "border": {
+      "subtle": {
+        "$type": "color",
+        "$value": "{color.white-alpha.6}",
+        "$description": "list row dividers, lines inside components"
+      },
+      "default": {
+        "$type": "color",
+        "$value": "{color.white-alpha.12}",
+        "$description": "cards, header line, section dividers, modal"
+      },
+      "control": {
+        "$type": "color",
+        "$value": "{color.white-alpha.16}",
+        "$description": "tags, outline buttons, search field, segmented control"
+      },
+      "strong": {
+        "$type": "color",
+        "$value": "{color.grey.400}",
+        "$description": "checkbox, radio, input outlines"
+      },
+      "selected": {
+        "$type": "color",
+        "$value": "{color.grey.50}",
+        "$description": "selected card or option"
+      },
+      "focus": {
+        "$type": "color",
+        "$value": "{color.white}",
+        "$description": "keyboard focus ring"
+      },
+      "disabled": {
+        "$type": "color",
+        "$value": "{color.white-alpha.6}",
+        "$description": "disabled inputs"
+      },
+      "success": {
+        "$type": "color",
+        "$value": "{color.green.800}",
+        "$description": "success border"
+      },
+      "warning": {
+        "$type": "color",
+        "$value": "{color.amber.800}",
+        "$description": "warning border"
+      },
+      "danger": {
+        "$type": "color",
+        "$value": "{color.red.800}",
+        "$description": "danger border"
+      },
+      "privacy": {
+        "$type": "color",
+        "$value": "{color.blue.800}",
+        "$description": "privacy border"
+      },
+      "choice": {
+        "$type": "color",
+        "$value": "{color.violet.800}",
+        "$description": "choice border"
+      },
+      "sustainability": {
+        "$type": "color",
+        "$value": "{color.teal.800}",
+        "$description": "sustainability border"
+      },
+      "info": {
+        "$type": "color",
+        "$value": "{color.white-alpha.12}",
+        "$description": "neutral informational border"
+      }
+    },
+    "shadow": {
+      "default": {
+        "$type": "color",
+        "$value": "{color.black-alpha.48}",
+        "$description": "shadow colour for all effects"
+      }
+    },
+    "alpha": {
+      "9": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            1,
+            1,
+            1
+          ],
+          "hex": "#ffffff",
+          "alpha": 0.09
+        },
+        "$description": "9% opacity. Black in Light mode; white in Dark mode."
+      },
+      "12": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            1,
+            1,
+            1
+          ],
+          "hex": "#ffffff",
+          "alpha": 0.12
+        },
+        "$description": "12% opacity. Black in Light mode; white in Dark mode."
+      },
+      "16": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            1,
+            1,
+            1
+          ],
+          "hex": "#ffffff",
+          "alpha": 0.16
+        },
+        "$description": "16% opacity. Black in Light mode; white in Dark mode."
+      },
+      "20": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            1,
+            1,
+            1
+          ],
+          "hex": "#ffffff",
+          "alpha": 0.2
+        },
+        "$description": "20% opacity. Black in Light mode; white in Dark mode."
+      },
+      "25": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            1,
+            1,
+            1
+          ],
+          "hex": "#ffffff",
+          "alpha": 0.25
+        },
+        "$description": "25% opacity. Black in Light mode; white in Dark mode."
+      },
+      "30": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            1,
+            1,
+            1
+          ],
+          "hex": "#ffffff",
+          "alpha": 0.3
+        },
+        "$description": "30% opacity. Black in Light mode; white in Dark mode."
+      },
+      "7-2": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            1,
+            1,
+            1
+          ],
+          "hex": "#ffffff",
+          "alpha": 0.072
+        },
+        "$description": "7.2% opacity. Black in Light mode; white in Dark mode."
+      },
+      "10-2": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            1,
+            1,
+            1
+          ],
+          "hex": "#ffffff",
+          "alpha": 0.102
+        },
+        "$description": "10.2% opacity. Black in Light mode; white in Dark mode."
+      }
+    },
+    "button": {
+      "pill": {
+        "selected": {
+          "$type": "color",
+          "$value": "{color.black}",
+          "$description": "Selected pill surface: white in Light, black in Dark, preserving the source inverse treatment."
+        }
+      },
+      "disabled": {
+        "foreground": {
+          "$type": "color",
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.9294,
+              0.9294,
+              0.9216
+            ],
+            "hex": "#ededeb",
+            "alpha": 0.5
+          },
+          "$description": "Disabled button foreground at 50% opacity in both themes."
+        }
+      }
+    }
+  }
+}

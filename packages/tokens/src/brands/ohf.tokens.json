@@ -1,0 +1,83 @@
+{
+  "$description": "Open Home Foundation, the default brand. The accent is OHF Light Blue.",
+  "brand": {
+    "accent": {
+      "50": {
+        "$type": "color",
+        "$value": "{color.light-blue.50}"
+      },
+      "100": {
+        "$type": "color",
+        "$value": "{color.light-blue.100}"
+      },
+      "200": {
+        "$type": "color",
+        "$value": "{color.light-blue.200}"
+      },
+      "300": {
+        "$type": "color",
+        "$value": "{color.light-blue.300}"
+      },
+      "400": {
+        "$type": "color",
+        "$value": "{color.light-blue.400}"
+      },
+      "500": {
+        "$type": "color",
+        "$value": "{color.light-blue.500}"
+      },
+      "600": {
+        "$type": "color",
+        "$value": "{color.light-blue.600}"
+      },
+      "700": {
+        "$type": "color",
+        "$value": "{color.light-blue.700}"
+      },
+      "800": {
+        "$type": "color",
+        "$value": "{color.light-blue.800}"
+      },
+      "900": {
+        "$type": "color",
+        "$value": "{color.light-blue.900}"
+      },
+      "950": {
+        "$type": "color",
+        "$value": "{color.light-blue.950}"
+      }
+    }
+  },
+  "color": {
+    "bg": {
+      "accent": {
+        "default": {
+          "$type": "color",
+          "$value": "{brand.accent.500}",
+          "$description": "OHF Light Blue itself. It is too light for white text, so text on it is dark."
+        },
+        "hover": {
+          "$type": "color",
+          "$value": "{brand.accent.400}"
+        },
+        "pressed": {
+          "$type": "color",
+          "$value": "{brand.accent.600}"
+        }
+      }
+    },
+    "text": {
+      "on-accent": {
+        "$type": "color",
+        "$value": "{color.dark-blue.900}",
+        "$description": "OHF Dark Blue: 6.7:1 on the accent, where white would be 2.2:1."
+      }
+    },
+    "icon": {
+      "on-accent": {
+        "$type": "color",
+        "$value": "{color.dark-blue.900}"
+      }
+    }
+  }
+}

@@ -1,0 +1,41 @@
+{
+  "name": "@openhomefoundation/tokens",
+  "version": "0.0.0",
+  "description": "Open Home Foundation design tokens: colours, spacing, radii, typography and more.",
+  "license": "Apache-2.0",
+  "type": "module",
+  "sideEffects": [
+    "**/*.css"
+  ],
+  "files": [
+    "dist"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/js/index.d.ts",
+      "default": "./dist/js/index.js"
+    },
+    "./vars": {
+      "types": "./dist/js/vars.d.ts",
+      "default": "./dist/js/vars.js"
+    },
+    "./css/*": "./dist/css/*",
+    "./tokens.json": "./dist/json/tokens.json"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "import:figma": "node scripts/import-figma.ts",
+    "generate:ramps": "node scripts/generate-ramps.ts",
+    "build": "node scripts/build.ts",
+    "test": "vitest run",
+    "typecheck": "tsc -p ."
+  },
+  "devDependencies": {
+    "@types/node": "^24.19.2",
+    "style-dictionary": "^5.8.0",
+    "typescript": "^7.0.2",
+    "vitest": "^5.1.1"
+  }
+}

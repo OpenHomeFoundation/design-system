@@ -1,0 +1,268 @@
+{
+  "space": {
+    "0": {
+      "$type": "dimension",
+      "$value": {
+        "value": 0,
+        "unit": "px"
+      },
+      "$description": "Spacing in px. Use for auto-layout gaps and padding. Prefer 8, 16, 24 for everyday layout; 4 and 12 for compact UI."
+    },
+    "4": {
+      "$type": "dimension",
+      "$value": {
+        "value": 4,
+        "unit": "px"
+      },
+      "$description": "Spacing in px. Use for auto-layout gaps and padding. Prefer 8, 16, 24 for everyday layout; 4 and 12 for compact UI."
+    },
+    "6": {
+      "$type": "dimension",
+      "$value": {
+        "value": 6,
+        "unit": "px"
+      }
+    },
+    "8": {
+      "$type": "dimension",
+      "$value": {
+        "value": 8,
+        "unit": "px"
+      },
+      "$description": "Spacing in px. Use for auto-layout gaps and padding. Prefer 8, 16, 24 for everyday layout; 4 and 12 for compact UI."
+    },
+    "10": {
+      "$type": "dimension",
+      "$value": {
+        "value": 10,
+        "unit": "px"
+      }
+    },
+    "12": {
+      "$type": "dimension",
+      "$value": {
+        "value": 12,
+        "unit": "px"
+      },
+      "$description": "Spacing in px. Use for auto-layout gaps and padding. Prefer 8, 16, 24 for everyday layout; 4 and 12 for compact UI."
+    },
+    "16": {
+      "$type": "dimension",
+      "$value": {
+        "value": 16,
+        "unit": "px"
+      },
+      "$description": "Spacing in px. Use for auto-layout gaps and padding. Prefer 8, 16, 24 for everyday layout; 4 and 12 for compact UI."
+    },
+    "20": {
+      "$type": "dimension",
+      "$value": {
+        "value": 20,
+        "unit": "px"
+      }
+    },
+    "24": {
+      "$type": "dimension",
+      "$value": {
+        "value": 24,
+        "unit": "px"
+      },
+      "$description": "Spacing in px. Use for auto-layout gaps and padding. Prefer 8, 16, 24 for everyday layout; 4 and 12 for compact UI."
+    },
+    "32": {
+      "$type": "dimension",
+      "$value": {
+        "value": 32,
+        "unit": "px"
+      },
+      "$description": "Spacing in px. Use for auto-layout gaps and padding. Prefer 8, 16, 24 for everyday layout; 4 and 12 for compact UI."
+    },
+    "40": {
+      "$type": "dimension",
+      "$value": {
+        "value": 40,
+        "unit": "px"
+      },
+      "$description": "Spacing in px. Use for auto-layout gaps and padding. Prefer 8, 16, 24 for everyday layout; 4 and 12 for compact UI."
+    },
+    "48": {
+      "$type": "dimension",
+      "$value": {
+        "value": 48,
+        "unit": "px"
+      },
+      "$description": "Spacing in px. Use for auto-layout gaps and padding. Prefer 8, 16, 24 for everyday layout; 4 and 12 for compact UI."
+    },
+    "64": {
+      "$type": "dimension",
+      "$value": {
+        "value": 64,
+        "unit": "px"
+      },
+      "$description": "Spacing in px. Use for auto-layout gaps and padding. Prefer 8, 16, 24 for everyday layout; 4 and 12 for compact UI."
+    },
+    "80": {
+      "$type": "dimension",
+      "$value": {
+        "value": 80,
+        "unit": "px"
+      },
+      "$description": "Spacing in px. Use for auto-layout gaps and padding. Prefer 8, 16, 24 for everyday layout; 4 and 12 for compact UI."
+    },
+    "96": {
+      "$type": "dimension",
+      "$value": {
+        "value": 96,
+        "unit": "px"
+      },
+      "$description": "Spacing in px. Use for auto-layout gaps and padding. Prefer 8, 16, 24 for everyday layout; 4 and 12 for compact UI."
+    }
+  },
+  "radius": {
+    "sm": {
+      "$type": "dimension",
+      "$value": {
+        "value": 4,
+        "unit": "px"
+      }
+    },
+    "md": {
+      "$type": "dimension",
+      "$value": {
+        "value": 6,
+        "unit": "px"
+      }
+    },
+    "l": {
+      "$type": "dimension",
+      "$value": {
+        "value": 8,
+        "unit": "px"
+      }
+    },
+    "lg": {
+      "$type": "dimension",
+      "$value": {
+        "value": 12,
+        "unit": "px"
+      }
+    },
+    "xl": {
+      "$type": "dimension",
+      "$value": {
+        "value": 16,
+        "unit": "px"
+      }
+    },
+    "full": {
+      "$type": "dimension",
+      "$value": {
+        "value": 9999,
+        "unit": "px"
+      }
+    },
+    "none": {
+      "$type": "dimension",
+      "$value": {
+        "value": 0,
+        "unit": "px"
+      }
+    },
+    "pill": {
+      "$type": "dimension",
+      "$value": "{radius.full}"
+    },
+    "control": {
+      "$type": "dimension",
+      "$value": "{radius.sm}",
+      "$description": "Default rectangular controls, 4px. Use radius/pill for rounded search, buttons and chips."
+    },
+    "media": {
+      "$type": "dimension",
+      "$value": "{radius.sm}"
+    },
+    "popover": {
+      "$type": "dimension",
+      "$value": "{radius.md}"
+    },
+    "container": {
+      "$type": "dimension",
+      "$value": "{radius.xl}",
+      "$description": "Large cards and dialogs, 16px."
+    }
+  },
+  "border-width": {
+    "default": {
+      "$type": "dimension",
+      "$value": {
+        "value": 1,
+        "unit": "px"
+      }
+    },
+    "focus": {
+      "$type": "dimension",
+      "$value": {
+        "value": 2,
+        "unit": "px"
+      }
+    },
+    "strong": {
+      "$type": "dimension",
+      "$value": {
+        "value": 2,
+        "unit": "px"
+      }
+    }
+  },
+  "size": {
+    "icon": {
+      "sm": {
+        "$type": "dimension",
+        "$value": {
+          "value": 16,
+          "unit": "px"
+        }
+      },
+      "md": {
+        "$type": "dimension",
+        "$value": {
+          "value": 20,
+          "unit": "px"
+        }
+      },
+      "lg": {
+        "$type": "dimension",
+        "$value": {
+          "value": 24,
+          "unit": "px"
+        }
+      }
+    },
+    "control": {
+      "sm": {
+        "$type": "dimension",
+        "$value": {
+          "value": 32,
+          "unit": "px"
+        },
+        "$description": "Control height in px. 32 compact desktop; 40 default desktop; 48 touch-friendly. Keep width flexible."
+      },
+      "md": {
+        "$type": "dimension",
+        "$value": {
+          "value": 40,
+          "unit": "px"
+        },
+        "$description": "Control height in px. 32 compact desktop; 40 default desktop; 48 touch-friendly. Keep width flexible."
+      },
+      "lg": {
+        "$type": "dimension",
+        "$value": {
+          "value": 48,
+          "unit": "px"
+        },
+        "$description": "Control height in px. 32 compact desktop; 40 default desktop; 48 touch-friendly. Keep width flexible."
+      }
+    }
+  }
+}
