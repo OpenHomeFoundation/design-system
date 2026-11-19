@@ -1,0 +1,73 @@
+{
+  "name": "@openhomefoundation/icons",
+  "version": "0.0.0",
+  "description": "Open Home Foundation icons: all of Lucide plus OHF's own, for any framework.",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/OpenHomeFoundation/design-system.git",
+    "directory": "packages/icons"
+  },
+  "type": "module",
+  "sideEffects": [
+    "./dist/lit/define.js"
+  ],
+  "files": [
+    "dist"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./icons/*.js": {
+      "types": "./dist/icons/*.d.ts",
+      "default": "./dist/icons/*.js"
+    },
+    "./lit": {
+      "types": "./dist/lit/index.d.ts",
+      "default": "./dist/lit/index.js"
+    },
+    "./lit/define.js": {
+      "types": "./dist/lit/define.d.ts",
+      "default": "./dist/lit/define.js"
+    },
+    "./vue": {
+      "types": "./dist/vue/index.d.ts",
+      "default": "./dist/vue/index.js"
+    },
+    "./svg/*": "./dist/svg/*",
+    "./sprite.svg": "./dist/sprite.svg",
+    "./icons.json": "./dist/icons.json"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "node scripts/build.ts && tsc -p tsconfig.build.json",
+    "test": "vitest run",
+    "typecheck": "tsc -p ."
+  },
+  "peerDependencies": {
+    "lit": "^3.0.0",
+    "vue": "^3.3.0"
+  },
+  "peerDependenciesMeta": {
+    "lit": {
+      "optional": true
+    },
+    "vue": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "@types/node": "^24.19.2",
+    "lit": "^3.3.3",
+    "lucide-static": "1.75.0",
+    "rolldown": "^1.3.3",
+    "svgo": "^4.1.0",
+    "typescript": "^7.0.2",
+    "vitest": "^5.1.1",
+    "vue": "^3.5.45"
+  }
+}

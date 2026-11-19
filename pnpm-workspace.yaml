@@ -1,2 +1,6 @@
 packages:
   - "packages/*"
+# esbuild comes in through Vite, which Vitest uses. Nothing here runs it,
+# so its install script stays off.
+allowBuilds:
+  esbuild: false

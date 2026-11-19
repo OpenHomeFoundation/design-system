@@ -5,6 +5,7 @@ Shared design foundations for Open Home Foundation products. The plan and its re
 | Package | Contents |
 |---|---|
 | [`@openhomefoundation/tokens`](packages/tokens) | Colours, spacing, radii, typography, shadows and motion as CSS custom properties, JS and JSON |
+| [`@openhomefoundation/icons`](packages/icons) | Every Lucide icon plus OHF's own, as icon data, SVG files, a Lit element and Vue components |
 
 ## Develop
 
