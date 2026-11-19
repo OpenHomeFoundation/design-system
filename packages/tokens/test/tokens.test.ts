@@ -148,6 +148,13 @@ describe("CSS output", () => {
 		}
 	});
 
+	it("resets an auto region to light, so it follows the system inside a dark page", () => {
+		const base = css("tokens.css");
+		const reset = base.slice(base.indexOf('[data-theme="light"],\n[data-theme="auto"] {'));
+		expect(reset).toContain("color-scheme: light;");
+		expect(reset).toContain("--ohf-color-bg-canvas: var(--ohf-color-warm-grey-50);");
+	});
+
 	it("dark.css follows the system only when data-theme is auto", () => {
 		const dark = css("themes/dark.css");
 		expect(dark).toContain('[data-theme="dark"] {');

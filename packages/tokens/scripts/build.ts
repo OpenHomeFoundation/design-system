@@ -13,6 +13,7 @@
  */
 import { rmSync } from "node:fs";
 import { basename, join } from "node:path";
+import { fileURLToPath } from "node:url";
 import StyleDictionary from "style-dictionary";
 
 import {
@@ -255,8 +256,12 @@ const baseCss = (light: Build, dark: Build): string => {
 		) +
 		rule(":root", [...light.values()], ["color-scheme: light;"]) +
 		"\n" +
-		// Lets a light region sit inside a dark page.
-		rule('[data-theme="light"]', themed, ["color-scheme: light;"])
+		// Lets a light region sit inside a dark page. "auto" is reset too, so an
+		// auto region follows the system even there; dark.css turns it dark again
+		// when the system prefers dark.
+		rule('[data-theme="light"],\n[data-theme="auto"]', themed, [
+			"color-scheme: light;",
+		])
 	);
 };
 
@@ -411,4 +416,6 @@ const main = async (): Promise<void> => {
 	);
 };
 
-if (import.meta.main) await main();
+// Run only when this file is the script Node was started with. The test
+// suite imports it for its functions.
+if (process.argv[1] === fileURLToPath(import.meta.url)) await main();
