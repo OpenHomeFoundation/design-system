@@ -163,6 +163,21 @@ const REQUIRED = {
 	"stroke-linejoin": "round",
 } as const;
 
+/** Attributes the `<svg>` element may have. None of them is carried over. */
+const ROOT_ATTRIBUTES = new Set([
+	...Object.keys(REQUIRED),
+	"xmlns",
+	"width",
+	"height",
+	"version",
+	"id",
+	"class",
+]);
+
+/** Namespaced (`xmlns:xlink`, `inkscape:version`) and `data-*` attributes draw nothing. */
+const isEditorAttribute = (attribute: string): boolean =>
+	attribute.includes(":") || attribute.startsWith("data-");
+
 /**
  * Checks an OHF icon against Lucide's drawing rules, so the two sets look
  * like one. Returns the list of problems, empty when the icon is fine.
@@ -187,9 +202,16 @@ export const validateCustom = (name: string, svg: string): string[] => {
 			);
 		}
 	}
-	if (parsed.attributes.style !== undefined) {
-		// Only the shapes are kept, so styling on <svg> would be silently lost.
-		problems.push("<svg> has an inline style");
+	// Only the shapes are kept, so anything on <svg> that changes the drawing
+	// (a style, opacity, a transform) would be silently lost.
+	for (const attribute of Object.keys(parsed.attributes)) {
+		if (attribute === "style") {
+			problems.push("<svg> has an inline style");
+		} else if (!ROOT_ATTRIBUTES.has(attribute) && !isEditorAttribute(attribute)) {
+			problems.push(
+				`<svg> has ${attribute}="${parsed.attributes[attribute]}", which would be lost; put it on the shapes`,
+			);
+		}
 	}
 	if (!parsed.node.some(([tag]) => SHAPES.has(tag))) problems.push("has no shapes");
 	for (const nested of parsed.nested) {
@@ -316,7 +338,11 @@ export const collectCustom = (dir = join(root, "src/custom")): Icon[] => {
 export const collect = (customDir?: string): Icon[] => {
 	const icons = [...collectLucide(), ...collectCustom(customDir)];
 	const names = new Map<string, string>();
-	const exports = new Map<string, string>();
+	// The index also exports these helpers, so no icon may take their names.
+	const exports = new Map<string, string>([
+		["iconToSvg", "the iconToSvg helper"],
+		["iconToSvgContent", "the iconToSvgContent helper"],
+	]);
 	const claim = (map: Map<string, string>, key: string, owner: string) => {
 		const existing = map.get(key);
 		if (existing && existing !== owner) {

@@ -53,6 +53,17 @@ describe("Lucide icons", () => {
 		}
 	});
 
+	it("lose nothing to the renderers' attribute allowlist", async () => {
+		const ours = (await import(dist("index.js"))) as Record<string, unknown>;
+		const { safeShapes } = ours as unknown as {
+			safeShapes: (icon: IconNode) => unknown;
+		};
+		for (const [name, node] of Object.entries(ours)) {
+			if (!Array.isArray(node)) continue;
+			expect(safeShapes(node as IconNode), name).toEqual(node);
+		}
+	});
+
 	it("keep renamed icons available under their old name", async () => {
 		const ours = (await import(dist("index.js"))) as Record<string, IconNode>;
 		expect(ours.iconHome).toBe(ours.iconHouse);
@@ -146,6 +157,29 @@ describe("OHF icons", () => {
 		expect(validateCustom("test-probe", svg)).toEqual(["<svg> has an inline style"]);
 	});
 
+	it("rejects attributes on <svg> that would be lost", () => {
+		const svg = readFileSync(join(fixtures, "valid/test-probe.svg"), "utf8");
+		expect(
+			validateCustom("test-probe", svg.replace("<svg ", '<svg opacity="0.5" ')),
+		).toEqual(['<svg> has opacity="0.5", which would be lost; put it on the shapes']);
+		// Editor and namespace attributes draw nothing, so they are fine.
+		expect(
+			validateCustom(
+				"test-probe",
+				svg.replace("<svg ", '<svg xmlns:xlink="http://www.w3.org/1999/xlink" data-name="x" id="a" '),
+			),
+		).toEqual([]);
+	});
+
+	it("rejects a name that would replace a helper export", () => {
+		const svg = readFileSync(join(fixtures, "valid/test-probe.svg"), "utf8");
+		for (const name of ["to-svg", "to-svg-content"]) {
+			const dir = mkdtempSync(join(tmpdir(), "ohf-reserved-"));
+			writeFileSync(join(dir, `${name}.svg`), svg);
+			expect(() => collect(dir)).toThrow(/is used by both the iconToSvg/);
+		}
+	});
+
 	it("rejects a name Lucide already uses", () => {
 		const dir = mkdtempSync(join(tmpdir(), "ohf-clash-"));
 		for (const name of ["house", "home"]) {
@@ -179,7 +213,7 @@ describe("iconToSvg", () => {
 			{ label: 'a"b<c' },
 		);
 		expect(svg).not.toContain("<script");
-		for (const handler of ["onmouseover", "ONLOAD", "onClick"]) {
+		for (const handler of ["onmouseover", "ONLOAD", "onClick", "innerHTML", "href"]) {
 			const out = iconToSvg([["path", { d: "M0 0", [handler]: "alert(1)" }]]);
 			expect(out).toBe(iconToSvg([["path", { d: "M0 0" }]]));
 		}
@@ -239,11 +273,49 @@ describe("Vue components", () => {
 		expect(titled).not.toContain("aria-hidden");
 	});
 
+	it("is not announced for slot content that is not a title", async () => {
+		const { createSSRApp, h, Fragment, Comment } = await import("vue");
+		const { renderToString } = await import("vue/server-renderer");
+		const { House } = (await import(dist("vue/index.js"))) as Record<string, never>;
+		const withSlot = (slot: () => unknown): Promise<string> =>
+			renderToString(
+				createSSRApp({ render: () => h(House as never, {}, { default: slot }) }),
+			);
+		// What `<title v-if="false">` leaves behind, an extra shape, an empty title.
+		for (const slot of [
+			() => [h(Comment as never, "v-if")],
+			() => [h("path", { d: "M0 0" })],
+			() => [h("title", "  ")],
+		]) {
+			const svg = await withSlot(slot);
+			expect(svg).toContain('aria-hidden="true"');
+			expect(svg).not.toContain('role="img"');
+		}
+		const nested = await withSlot(() => [h(Fragment, [h("title", "Home")])]);
+		expect(nested).toContain('role="img"');
+		expect(nested).not.toContain("aria-hidden");
+	});
+
+	it("drops unsafe tags and attributes from icon data", async () => {
+		const { createSSRApp, h } = await import("vue");
+		const { renderToString } = await import("vue/server-renderer");
+		const { createIcon } = (await import(dist("vue/index.js"))) as {
+			createIcon: (name: string, node: unknown) => never;
+		};
+		const Evil = createIcon("evil", [
+			["script", { src: "x" }],
+			["path", { d: "M0 0", onmouseover: "alert(1)", innerHTML: "<b>x</b>" }],
+		]);
+		const svg = await renderToString(createSSRApp({ render: () => h(Evil) }));
+		expect(svg).toContain('<path d="M0 0"></path>');
+		expect(svg).not.toMatch(/script|onmouseover|<b>/);
+	});
+
 	it("has a component for every icon and old name", async () => {
 		const icons = (await import(dist("vue/index.js"))) as Record<string, unknown>;
 		const data = (await import(dist("index.js"))) as Record<string, unknown>;
 		const expected = Object.keys(data)
-			.filter((name) => name.startsWith("icon") && name !== "iconToSvg" && name !== "iconToSvgContent")
+			.filter((name) => Array.isArray(data[name]))
 			.map((name) => name.slice(4))
 			.sort();
 		expect(Object.keys(icons).filter((name) => name !== "createIcon").sort()).toEqual(expected);
@@ -292,7 +364,8 @@ describe("tree shaking", () => {
 		);
 		expect(code).not.toContain("customElements.define");
 		expect(code).not.toContain("class OhfIcon");
-		expect(code.length).toBeLessThan(2500);
+		// One icon plus the renderer; the whole set would be about 600 kB.
+		expect(code.length).toBeLessThan(5000);
 	});
 
 	it("importing one Vue component bundles only that icon", async () => {
@@ -302,7 +375,8 @@ describe("tree shaking", () => {
 		);
 		expect(code).toContain("M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8");
 		expect(code.match(/createIcon\(/g)).toHaveLength(1);
-		expect(code.length).toBeLessThan(2500);
+		// One icon plus the renderer; the whole set would be about 600 kB.
+		expect(code.length).toBeLessThan(5000);
 	});
 
 	it("declares only the element registration as a side effect", () => {

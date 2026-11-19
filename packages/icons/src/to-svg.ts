@@ -25,10 +25,46 @@ const SHAPES = new Set([
 	"polygon",
 ]);
 
-const ATTRIBUTE_NAME = /^[a-z][a-z0-9-]*$/i;
+/**
+ * The attributes a shape may carry: geometry and presentation only. Icon data
+ * can come from anywhere, so everything else is dropped, which keeps out event
+ * handlers (`onclick`) and properties that inject markup (`innerHTML`).
+ */
+const SHAPE_ATTRIBUTES = new Set([
+	"d",
+	"cx",
+	"cy",
+	"r",
+	"rx",
+	"ry",
+	"x",
+	"y",
+	"x1",
+	"x2",
+	"y1",
+	"y2",
+	"width",
+	"height",
+	"points",
+	"pathLength",
+	"transform",
+	"fill",
+	"fill-opacity",
+	"fill-rule",
+	"clip-rule",
+	"opacity",
+	"stroke",
+	"stroke-width",
+	"stroke-opacity",
+	"stroke-linecap",
+	"stroke-linejoin",
+	"stroke-dasharray",
+	"stroke-dashoffset",
+	"stroke-miterlimit",
+	"vector-effect",
+]);
 
-/** Event handlers (`onclick`, `onload`, …) run script, so they are never written. */
-const EVENT_HANDLER = /^on/i;
+const ATTRIBUTE_NAME = /^[a-z][a-z0-9-]*$/i;
 
 const escape = (value: string): string =>
 	value
@@ -41,17 +77,32 @@ const attributes = (values: Record<string, string | undefined>): string =>
 	Object.entries(values)
 		.filter(
 			(entry): entry is [string, string] =>
-				entry[1] !== undefined &&
-				ATTRIBUTE_NAME.test(entry[0]) &&
-				!EVENT_HANDLER.test(entry[0]),
+				entry[1] !== undefined && ATTRIBUTE_NAME.test(entry[0]),
 		)
 		.map(([name, value]) => ` ${name}="${escape(String(value))}"`)
 		.join("");
 
-/** The shapes of an icon as an SVG string, without the surrounding `<svg>`. */
-export const iconToSvgContent = (icon: IconNode): string =>
+/**
+ * An icon reduced to what is safe to draw: known shapes with known
+ * attributes. Every renderer (string, Lit, Vue) goes through this.
+ */
+export const safeShapes = (
+	icon: IconNode,
+): [tag: string, attributes: Record<string, string>][] =>
 	icon
 		.filter(([tag]) => SHAPES.has(tag))
+		.map(([tag, values]) => [
+			tag,
+			Object.fromEntries(
+				Object.entries(values)
+					.filter(([name]) => SHAPE_ATTRIBUTES.has(name))
+					.map(([name, value]) => [name, String(value)]),
+			),
+		]);
+
+/** The shapes of an icon as an SVG string, without the surrounding `<svg>`. */
+export const iconToSvgContent = (icon: IconNode): string =>
+	safeShapes(icon)
 		.map(([tag, values]) => `<${tag}${attributes(values)}/>`)
 		.join("");
 

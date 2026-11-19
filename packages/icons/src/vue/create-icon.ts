@@ -1,6 +1,7 @@
-import { h } from "vue";
-import type { FunctionalComponent, SVGAttributes } from "vue";
+import { Fragment, h } from "vue";
+import type { FunctionalComponent, SVGAttributes, VNode } from "vue";
 
+import { safeShapes } from "../to-svg.js";
 import type { IconNode } from "../types.js";
 
 /** The same props as `@lucide/vue`, so an app can switch by changing its import. */
@@ -18,17 +19,35 @@ export type IconProps = {
 export type IconComponent = FunctionalComponent<IconProps & SVGAttributes>;
 
 /**
+ * Whether the slot content gives the icon a name: a `<title>` with text in
+ * it, possibly inside fragments. A `v-if="false"` title leaves a comment
+ * behind, and extra shapes are not a name either.
+ */
+const hasTitle = (nodes: unknown): boolean =>
+	Array.isArray(nodes) &&
+	(nodes as VNode[]).some((node) => {
+		if (typeof node !== "object" || node === null) return false;
+		if (node.type === Fragment) return hasTitle(node.children);
+		if (node.type !== "title") return false;
+		const { children } = node;
+		return typeof children === "string"
+			? children.trim() !== ""
+			: Array.isArray(children) && children.length > 0;
+	});
+
+/**
  * Makes the Vue component for one icon. Other attributes, classes and
  * listeners land on the `<svg>`. The icon is hidden from screen readers unless
  * it is given an `aria-label` or a `<title>` in its slot.
  */
 export const createIcon = (name: string, node: IconNode): IconComponent => {
+	const shapes = safeShapes(node);
 	const component: IconComponent = (props, { attrs, slots }) => {
 		const size = props.size ?? 24;
 		const width = props.strokeWidth ?? 2;
 		const children = slots.default?.() ?? [];
 		const named =
-			children.length > 0 || "aria-label" in attrs || "aria-labelledby" in attrs;
+			hasTitle(children) || "aria-label" in attrs || "aria-labelledby" in attrs;
 		return h(
 			"svg",
 			{
@@ -47,7 +66,7 @@ export const createIcon = (name: string, node: IconNode): IconComponent => {
 				...attrs,
 				class: ["ohf-icon", `ohf-icon-${name}`, attrs.class],
 			},
-			[...node.map(([tag, attributes]) => h(tag, attributes)), ...children],
+			[...shapes.map(([tag, attributes]) => h(tag, attributes)), ...children],
 		);
 	};
 	component.props = {
